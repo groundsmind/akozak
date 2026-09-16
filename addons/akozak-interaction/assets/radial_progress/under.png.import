@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bgiiihh4vnow7"
-path="res://.godot/imported/progress.png-4886b611d21530160a08c4007ef1ce3f.ctex"
+uid="uid://c2bystgwacilo"
+path="res://.godot/imported/under.png-5be14cecb55dad917fcd0b0749040d39.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/radial_progress/progress.png"
-dest_files=["res://.godot/imported/progress.png-4886b611d21530160a08c4007ef1ce3f.ctex"]
+source_file="res://addons/akozak-interaction/assets/radial_progress/under.png"
+dest_files=["res://.godot/imported/under.png-5be14cecb55dad917fcd0b0749040d39.ctex"]
 
 [params]
 

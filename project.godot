@@ -17,7 +17,11 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-GlobalInteractData="*uid://ovwl3gdyg4b8"
+GlobalInteractData="*uid://dbyoga5xbdaru"
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/akozak-interaction/plugin.cfg")
 
 [input]
 
