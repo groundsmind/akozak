@@ -13,7 +13,7 @@ config_version=5
 config/name="interaction system"
 run/main_scene="uid://bm1q1wrq8xk14"
 config/features=PackedStringArray("4.7", "Forward Plus")
-config/icon="res://icon.svg"
+config/icon="uid://cxph2wpfpax7a"
 
 [autoload]
 
