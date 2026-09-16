@@ -9,8 +9,8 @@ made in around a day!
 * Download this repo's source code
 * Copy the `addons` folder to the root of your project
 * Inside the editor, go to `Project -> Project Settings -> Plugins` and enable Akozak Interaction System
-
-
+### 1.2 Asset Store
+soon...
 
 
 # 2. Usage
@@ -64,3 +64,4 @@ By referencing the `InteractArea3D` in your script, you can call `disable_action
 <img width="474" height="378" alt="image" src="https://github.com/user-attachments/assets/cbea8b2b-9cb7-4a64-92c1-c760088858e2" />
 
 You may make use of akozak's prebuilt UI by simply instantiating the InteractionHints3D node, preferably on the scene's root.
+There are also some settings to mess around with, mainly the progressbar's background and line color.
