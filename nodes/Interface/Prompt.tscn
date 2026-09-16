@@ -12,18 +12,30 @@ offset_bottom = -392.0
 grow_horizontal = 2
 grow_vertical = 2
 scale = Vector2(0.3, 0.3)
+alignment = 2
 script = ExtResource("1_aala8")
+
+[node name="HintLabel" type="Label" parent="." unique_id=1840373609]
+layout_mode = 2
+theme_override_constants/outline_size = 45
+theme_override_font_sizes/font_size = 146
+text = "Interact"
+horizontal_alignment = 2
 
 [node name="CenterContainer" type="CenterContainer" parent="." unique_id=1599915162]
 layout_mode = 2
 
 [node name="ProgressBar" type="TextureProgressBar" parent="CenterContainer" unique_id=835352050]
 layout_mode = 2
+max_value = 10.0
+step = 0.01
+value = 3.21
+allow_lesser = true
 fill_mode = 4
 texture_under = ExtResource("1_kungk")
 texture_progress = ExtResource("2_aala8")
 tint_under = Color(0.16, 0.16, 0.16, 0.5019608)
-tint_progress = Color(0.51666665, 1, 0, 0.8392157)
+tint_progress = Color(1, 0.7722459, 0.99484175, 0.8392157)
 
 [node name="KeyLabel" type="Label" parent="CenterContainer" unique_id=529173622]
 layout_mode = 2
@@ -33,9 +45,3 @@ theme_override_font_sizes/font_size = 175
 text = "E"
 horizontal_alignment = 1
 vertical_alignment = 1
-
-[node name="HintLabel" type="Label" parent="." unique_id=1840373609]
-layout_mode = 2
-theme_override_constants/outline_size = 45
-theme_override_font_sizes/font_size = 146
-text = "Interact"
