@@ -12,6 +12,7 @@ var target_modulate: Color = Color(1.0, 1.0, 1.0, 1.0)
 func _ready() -> void:
 	await get_tree().process_frame
 	key_label.pivot_offset = key_label.size / 2
+	progress_bar.value = 0.0
 	GlobalInteractData.interaction_start.connect(_bump)
 	GlobalInteractData.interaction_start.connect(set_current_action)
 	GlobalInteractData.interaction_cancel.connect(_on_interaction_end)
@@ -41,6 +42,11 @@ func refresh_enabled_state() -> void:
 		target_modulate = Color(1.0, 1.0, 1.0, 1.0)
 	else:
 		target_modulate = Color(0.5, 0.5, 0.5, 0.5)
+	
+	if bound_action.visible:
+		show()
+	else:
+		hide()
 
 func set_bound_action(gid_action: InteractAction) -> void:
 	bound_action = gid_action

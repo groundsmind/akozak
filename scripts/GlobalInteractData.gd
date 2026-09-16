@@ -15,7 +15,8 @@ signal interaction_cancel(interaction: InteractAction)
 signal interaction_finish(interaction: InteractAction)
 signal interaction_available(interacts: Array[InteractAction], interact_area: InteractArea3D)
 signal interaction_unavailable()
-signal action_enabled_changed(action: InteractAction)
+@warning_ignore("unused_signal")
+signal action_state_changed(action: InteractAction)
 
 func _ready() -> void:
 	interaction_cancel.connect(_on_interaction_cancel)

@@ -11,6 +11,7 @@ billboard = 2
 double_sided = false
 no_depth_test = true
 fixed_size = true
+render_priority = 127
 texture = SubResource("ViewportTexture_cb2or")
 script = ExtResource("1_3cew3")
 

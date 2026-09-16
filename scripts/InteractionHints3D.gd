@@ -15,7 +15,7 @@ func _ready() -> void:
 	pixel_size = 1.0 / pixels_per_world_unit
 	GlobalInteractData.interaction_available.connect(_on_interaction_available)
 	GlobalInteractData.interaction_unavailable.connect(_on_interaction_unavailable)
-	GlobalInteractData.action_enabled_changed.connect(_on_action_enabled_changed)
+	GlobalInteractData.action_state_changed.connect(_on_action_state_changed)
 
 func _on_interaction_available(interacts: Array[InteractAction], interact_area: InteractArea3D) -> void:
 	for child in prompt_container.get_children():
@@ -27,6 +27,8 @@ func _on_interaction_available(interacts: Array[InteractAction], interact_area: 
 		prompt_container.add_child(new_prompt)
 		new_prompt.set_bound_action(action)
 		prompts_by_action[action] = new_prompt
+		if not action.visible:
+			new_prompt.hide()
 
 	await _fit_viewport_to_content()
 
@@ -51,6 +53,7 @@ func _on_interaction_unavailable() -> void:
 	prompts_by_action.clear()
 	hide()
 
-func _on_action_enabled_changed(action: InteractAction) -> void:
+func _on_action_state_changed(action: InteractAction) -> void:
 	if prompts_by_action.has(action):
 		prompts_by_action[action].refresh_enabled_state()
+	await _fit_viewport_to_content()

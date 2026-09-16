@@ -38,12 +38,28 @@ func disable_action(action_hint: String) -> void:
 func enable_action(action_hint: String) -> void:
 	set_action_enabled_state(action_hint, true)
 
+func hide_action(action_hint: String) -> void:
+	set_action_visible_state(action_hint, false)
+
+func show_action(action_hint: String) -> void:
+	set_action_visible_state(action_hint, true)
+
+
 func set_action_enabled_state(action_hint: String, is_enabled: bool) -> void:
 	for action in interactions:
 		if action.hint == action_hint:
 			action.enabled = is_enabled
 			if GlobalInteractData.current_area == self:
-				GlobalInteractData.action_enabled_changed.emit(action)
+				GlobalInteractData.action_state_changed.emit(action)
+			break
+
+func set_action_visible_state(action_hint: String, is_shown: bool) -> void:
+	for action in interactions:
+		if action.hint == action_hint:
+			set_action_enabled_state(action_hint, is_shown)
+			action.visible = is_shown
+			if GlobalInteractData.current_area == self:
+				GlobalInteractData.action_state_changed.emit(action)
 			break
 
 func send_start(action) -> void:
