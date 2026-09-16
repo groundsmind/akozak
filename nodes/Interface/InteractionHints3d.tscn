@@ -1,0 +1,40 @@
+[gd_scene format=3 uid="uid://dg24tnsodfj8a"]
+
+[ext_resource type="Script" uid="uid://ckx77xlpp2dwf" path="res://scripts/InteractionHints3D.gd" id="1_3cew3"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_cb2or"]
+viewport_path = NodePath("SubViewport")
+
+[node name="InteractionHints3D" type="Sprite3D" unique_id=724784978]
+transform = Transform3D(0.15, 0, 0, 0, 0.15, 0, 0, 0, 0.005, 0, 0, 0)
+billboard = 1
+double_sided = false
+no_depth_test = true
+texture = SubResource("ViewportTexture_cb2or")
+script = ExtResource("1_3cew3")
+
+[node name="SubViewport" type="SubViewport" parent="." unique_id=115240827]
+transparent_bg = true
+handle_input_locally = false
+size = Vector2i(600, 1200)
+render_target_update_mode = 4
+
+[node name="Control" type="Control" parent="SubViewport" unique_id=1560709857]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.3, 0.3)
+
+[node name="CenterContainer" type="CenterContainer" parent="SubViewport/Control" unique_id=410021949]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="PromptContainer" type="VBoxContainer" parent="SubViewport/Control/CenterContainer" unique_id=1532256672]
+layout_mode = 2
+alignment = 1
