@@ -25,7 +25,7 @@ texture_progress = ExtResource("2_aala8")
 tint_under = Color(0.16, 0.16, 0.16, 0.5019608)
 tint_progress = Color(0.51666665, 1, 0, 0.8392157)
 
-[node name="Key" type="Label" parent="CenterContainer" unique_id=529173622]
+[node name="KeyLabel" type="Label" parent="CenterContainer" unique_id=529173622]
 layout_mode = 2
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 45
@@ -34,7 +34,7 @@ text = "E"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Hint" type="Label" parent="." unique_id=1840373609]
+[node name="HintLabel" type="Label" parent="." unique_id=1840373609]
 layout_mode = 2
 theme_override_constants/outline_size = 45
 theme_override_font_sizes/font_size = 146

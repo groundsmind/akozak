@@ -6,8 +6,10 @@
 [ext_resource type="Texture2D" uid="uid://oyl0rtfy7o18" path="res://samples/assets/kenney-prototype-textures/Dark/texture_03.png" id="2_vtm10"]
 [ext_resource type="PackedScene" uid="uid://bkglf0f73o2vu" path="res://nodes/Interactions/ReachArea3d.tscn" id="4_3fd14"]
 [ext_resource type="PackedScene" uid="uid://b5prkjja7arlv" path="res://nodes/Interactions/InteractArea3d.tscn" id="5_xnrqy"]
+[ext_resource type="Script" uid="uid://wfcimon8qyis" path="res://samples/scenes/donut.gd" id="6_dr473"]
 [ext_resource type="Script" uid="uid://rf526ervh8ar" path="res://scripts/InteractSources.gd" id="7_38h52"]
 [ext_resource type="PackedScene" uid="uid://dg24tnsodfj8a" path="res://nodes/Interface/InteractionHints3d.tscn" id="7_rivt0"]
+[ext_resource type="Script" uid="uid://dk5aep7cq1uga" path="res://samples/scenes/prism.gd" id="9_3s68p"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_a0f05"]
 shader = ExtResource("1_a0f05")
@@ -43,19 +45,30 @@ data = PackedVector3Array(10, 0, 10, -10, 0, 10, 10, 0, -10, -10, 0, 10, -10, 0,
 [sub_resource type="BoxMesh" id="BoxMesh_3fd14"]
 size = Vector3(5, 1, 1)
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dr473"]
+
 [sub_resource type="TorusMesh" id="TorusMesh_576i8"]
+material = SubResource("StandardMaterial3D_dr473")
 inner_radius = 0.04
 outer_radius = 0.21
+
+[sub_resource type="SphereMesh" id="SphereMesh_g4v7s"]
+radius = 0.25
+height = 0.5
+radial_segments = 16
+rings = 8
 
 [sub_resource type="Resource" id="Resource_lwqeb"]
 script = ExtResource("7_38h52")
 hint = "Eat"
+repeats = false
 metadata/_custom_type_script = "uid://rf526ervh8ar"
 
 [sub_resource type="Resource" id="Resource_dr473"]
 script = ExtResource("7_38h52")
 key = 81
 hint = "Destroy"
+repeats = false
 metadata/_custom_type_script = "uid://rf526ervh8ar"
 
 [sub_resource type="Resource" id="Resource_3s68p"]
@@ -70,10 +83,44 @@ key = 70
 hint = "Ponder"
 metadata/_custom_type_script = "uid://rf526ervh8ar"
 
-[sub_resource type="SphereShape3D" id="SphereShape3D_w16va"]
-radius = 0.2907942
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_yf5fn"]
+height = 0.33740234
+radius = 0.28466797
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_38h52"]
+[sub_resource type="PrismMesh" id="PrismMesh_g4v7s"]
+size = Vector3(0.655, 0.335, 0.165)
+
+[sub_resource type="Resource" id="Resource_yf5fn"]
+script = ExtResource("7_38h52")
+key = 82
+hint = "Rotate"
+metadata/_custom_type_script = "uid://rf526ervh8ar"
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_3cew3"]
+radius = 0.39628488
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_g4v7s"]
+albedo_color = Color(0.3444994, 0.26779303, 0.3330377, 1)
+
+[sub_resource type="Curve" id="Curve_3s68p"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.5314286, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_d0u6y"]
+curve = SubResource("Curve_3s68p")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_57qmd"]
+direction = Vector3(0, 1, 0)
+spread = 30.446
+initial_velocity_min = 3.0
+initial_velocity_max = 3.0
+scale_curve = SubResource("CurveTexture_d0u6y")
+
+[sub_resource type="SphereMesh" id="SphereMesh_yf5fn"]
+radius = 0.063
+height = 0.128
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_3s68p"]
 viewport_path = NodePath("SubViewport")
 
 [node name="test area" type="Node3D" unique_id=2025112010]
@@ -141,18 +188,58 @@ mesh = SubResource("BoxMesh_3fd14")
 material = SubResource("StandardMaterial3D_xnrqy")
 
 [node name="Interactible" type="Node3D" parent="." unique_id=1404419069]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0412221, -4.082488)
 
-[node name="Donut" type="MeshInstance3D" parent="Interactible" unique_id=1814314713]
-transform = Transform3D(0.9373002, 0.2589135, -0.23330683, -0.348523, 0.6963089, -0.6274437, 0, 0.6694159, 0.74288785, 0, 1.1109288, -4)
+[node name="EatenDonut" type="CSGMesh3D" parent="Interactible" unique_id=627258328]
+transform = Transform3D(-0.1262583, -0.034844987, 0.9913852, 0.05915871, 0.99733955, 0.04258847, -0.9902319, 0.064026184, -0.123860955, 0.03347969, -0.010897517, 0.10514045)
+visible = false
 mesh = SubResource("TorusMesh_576i8")
 
-[node name="InteractArea3D" parent="Interactible/Donut" unique_id=1000797918 instance=ExtResource("5_xnrqy")]
+[node name="CSGMesh3D" type="CSGMesh3D" parent="Interactible/EatenDonut" unique_id=666046977]
+transform = Transform3D(0.9999997, 7.4505806e-08, -2.9802322e-08, 4.902141e-08, 0.9999996, 0, 3.7865128e-08, -2.9802322e-08, 0.9999999, -0.094810754, 0.0052206516, -0.22173858)
+operation = 2
+mesh = SubResource("SphereMesh_g4v7s")
+
+[node name="Donut" type="MeshInstance3D" parent="Interactible" unique_id=1814314713]
+transform = Transform3D(-0.1262583, -0.034844987, 0.9913852, 0.05915871, 0.99733955, 0.04258847, -0.9902319, 0.064026184, -0.123860955, 0.03347969, -0.010897517, 0.10514045)
+mesh = SubResource("TorusMesh_576i8")
+script = ExtResource("6_dr473")
+
+[node name="DonutInteract" parent="Interactible/Donut" unique_id=968387031 instance=ExtResource("5_xnrqy")]
 interactions = Array[ExtResource("7_38h52")]([SubResource("Resource_lwqeb"), SubResource("Resource_dr473"), SubResource("Resource_3s68p"), SubResource("Resource_87btr")])
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Interactible/Donut/InteractArea3D" unique_id=417753814]
-transform = Transform3D(0.9999999, 4.4703484e-08, -2.9802322e-08, 2.2311522e-08, 0.9999998, 0, 8.2236875e-09, 0, 0.9999999, 0.006852716, -0.01369071, 0.012336731)
-shape = SubResource("SphereShape3D_w16va")
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Interactible/Donut/DonutInteract" unique_id=1153561849]
+transform = Transform3D(1, -5.9604645e-08, 2.3841858e-07, -7.450581e-09, 1, 3.4458935e-08, 0, 4.656613e-09, 0.9999965, 0, 0.009521484, 0)
+shape = SubResource("CylinderShape3D_yf5fn")
+
+[node name="prism" type="MeshInstance3D" parent="Interactible" unique_id=1954889864]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5580866, 0.24539936, 0.08800411)
+mesh = SubResource("PrismMesh_g4v7s")
+script = ExtResource("9_3s68p")
+
+[node name="PrismInteract" parent="Interactible/prism" unique_id=1255223616 instance=ExtResource("5_xnrqy")]
+interactions = Array[ExtResource("7_38h52")]([SubResource("Resource_yf5fn")])
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Interactible/prism/PrismInteract" unique_id=1384009891]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.021484375, 0)
+shape = SubResource("SphereShape3D_3cew3")
+
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="Interactible" unique_id=1413144195]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.08251417, 0)
+height = 0.001
+material = SubResource("StandardMaterial3D_g4v7s")
+
+[node name="donutEat" type="GPUParticles3D" parent="Interactible" unique_id=702759714]
+emitting = false
+one_shot = true
+explosiveness = 1.0
+randomness = 1.0
+process_material = SubResource("ParticleProcessMaterial_57qmd")
+draw_pass_1 = SubResource("SphereMesh_yf5fn")
 
 [node name="InteractionHints3D" parent="." unique_id=724784978 instance=ExtResource("7_rivt0")]
 visible = false
-texture = SubResource("ViewportTexture_38h52")
+texture = SubResource("ViewportTexture_3s68p")
+
+[connection signal="action_start" from="Interactible/Donut/DonutInteract" to="Interactible/Donut" method="_on_donut_interact_action_start"]
+[connection signal="action_start" from="Interactible/prism/PrismInteract" to="Interactible/prism" method="_on_prism_interact_action_start"]
