@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://bkglf0f73o2vu"]
 
-[ext_resource type="Script" uid="uid://dqncj5qmqfys" path="res://scripts/ReachArea3D.gd" id="1_cv1a7"]
+[ext_resource type="Script" uid="uid://dqncj5qmqfys" path="res://addons/akozak-interaction/scripts/ReachArea3D.gd" id="1_cv1a7"]
 
 [sub_resource type="SeparationRayShape3D" id="SeparationRayShape3D_2p12m"]
 

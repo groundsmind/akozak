@@ -31,6 +31,9 @@ func _on_interaction_available(interacts: Array[InteractAction], interact_area: 
 			new_prompt.hide()
 
 	await _fit_viewport_to_content()
+	
+	if GlobalInteractData.current_area != interact_area:
+		return
 
 	if is_instance_valid(interact_area.hint_marker):
 		global_transform.origin = interact_area.hint_marker.global_transform.origin

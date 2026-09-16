@@ -138,7 +138,7 @@ metadata/_custom_type_script = "uid://rf526ervh8ar"
 script = ExtResource("8_a3pdb")
 key = 81
 hint = "Ponder"
-duration = 3.0
+enabled = false
 metadata/_custom_type_script = "uid://rf526ervh8ar"
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_yf5fn"]

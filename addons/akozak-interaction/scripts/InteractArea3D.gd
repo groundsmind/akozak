@@ -8,6 +8,7 @@ signal interaction_available
 signal interaction_unavailable
 var action_over: bool = false
 var active_action: InteractAction = null
+var overlap_count: int = 0
 
 @export var interactions: Array[InteractAction] = []
 @export var hint_marker: Marker3D
@@ -84,11 +85,15 @@ func _on_global_interaction_finish(action: InteractAction) -> void:
 		active_action = null
 
 func _on_area_entered(_area: Area3D) -> void:
-	set_process_unhandled_input(true)
-	GlobalInteractData.set_interactor(interactions, self)
-	interaction_available.emit()
+	overlap_count += 1
+	if overlap_count == 1:
+		set_process_unhandled_input(true)
+		GlobalInteractData.set_interactor(interactions, self)
+		interaction_available.emit()
 
 func _on_area_exited(_area: Area3D) -> void:
-	set_process_unhandled_input(false)
-	GlobalInteractData.clear_interactor()
-	interaction_unavailable.emit()
+	overlap_count = max(overlap_count - 1, 0)
+	if overlap_count == 0:
+		set_process_unhandled_input(false)
+		GlobalInteractData.clear_interactor()
+		interaction_unavailable.emit()

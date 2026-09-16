@@ -29,7 +29,7 @@ func set_interactor(action: Array[InteractAction], interact_area: InteractArea3D
 	interaction_available.emit(action, interact_area)
 
 func clear_interactor() -> void:
-	available_actions.clear()
+	available_actions = []
 	current_area = null
 	interaction_unavailable.emit()
 
