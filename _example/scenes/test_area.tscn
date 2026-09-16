@@ -406,6 +406,7 @@ transform = Transform3D(1.0000002, 0, -2.9802322e-08, 0, 1, 0, 2.9802322e-08, 0,
 [node name="InteractionHints3D" parent="." unique_id=724784978 instance=ExtResource("11_73gkg")]
 visible = false
 texture = SubResource("ViewportTexture_6rhlo")
+progress_line_color = Color(1.2513996e-06, 0.4693308, 0.6623503, 1)
 
 [connection signal="action_start" from="Interactible/prism/PrismInteractArea" to="Interactible/prism" method="_on_prism_interact_area_action_start"]
 [connection signal="action_cancel" from="Interactible/donut/DonutInteractArea" to="Interactible/donut" method="_on_donut_interact_area_action_cancel"]

@@ -7,6 +7,8 @@ const PROMPT = preload("uid://cq1enxi7px6dw")
 
 @export var pixels_per_world_unit: float = 400.0
 @export var content_padding: Vector2 = Vector2(16, 16)
+@export var progress_bg_color: Color = Color("#FFF")
+@export var progress_line_color: Color = Color("#00FF00AA")
 
 var prompts_by_action: Dictionary = {}
 
@@ -26,6 +28,7 @@ func _on_interaction_available(interacts: Array[InteractAction], interact_area: 
 		var new_prompt = PROMPT.instantiate()
 		prompt_container.add_child(new_prompt)
 		new_prompt.set_bound_action(action)
+		new_prompt.set_colors(progress_bg_color, progress_line_color)
 		prompts_by_action[action] = new_prompt
 		if not action.visible:
 			new_prompt.hide()

@@ -11,7 +11,7 @@ var active_action: InteractAction = null
 var overlap_count: int = 0
 
 @export var interactions: Array[InteractAction] = []
-@export var hint_marker: Marker3D
+@export var hint_marker: Node3D
 
 func _ready() -> void:
 	set_process_unhandled_input(false)

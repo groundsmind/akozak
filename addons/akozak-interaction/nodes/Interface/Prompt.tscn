@@ -1,8 +1,8 @@
 [gd_scene format=3 uid="uid://cq1enxi7px6dw"]
 
-[ext_resource type="Script" uid="uid://clkfcovbkhos5" path="res://scripts/action_prompt.gd" id="1_aala8"]
-[ext_resource type="Texture2D" uid="uid://c2bystgwacilo" path="res://assets/radial_progress/under.png" id="1_kungk"]
-[ext_resource type="Texture2D" uid="uid://bgiiihh4vnow7" path="res://assets/radial_progress/progress.png" id="2_aala8"]
+[ext_resource type="Script" uid="uid://clkfcovbkhos5" path="res://addons/akozak-interaction/scripts/action_prompt.gd" id="1_aala8"]
+[ext_resource type="Texture2D" uid="uid://c2bystgwacilo" path="res://addons/akozak-interaction/assets/radial_progress/under.png" id="1_kungk"]
+[ext_resource type="Texture2D" uid="uid://bgiiihh4vnow7" path="res://addons/akozak-interaction/assets/radial_progress/progress.png" id="2_aala8"]
 
 [node name="Prompt" type="HBoxContainer" unique_id=889211836]
 anchors_preset = 15
@@ -35,7 +35,7 @@ fill_mode = 4
 texture_under = ExtResource("1_kungk")
 texture_progress = ExtResource("2_aala8")
 tint_under = Color(0.16, 0.16, 0.16, 0.5019608)
-tint_progress = Color(1, 0.7722459, 0.99484175, 0.8392157)
+tint_progress = Color(0.4334447, 1, 0.50005263, 0.8392157)
 
 [node name="KeyLabel" type="Label" parent="CenterContainer" unique_id=529173622]
 layout_mode = 2

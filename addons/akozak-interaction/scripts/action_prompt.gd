@@ -62,6 +62,10 @@ func set_bound_action(gid_action: InteractAction) -> void:
 		target_modulate = Color(0.5, 0.5, 0.5, 0.5)
 		modulate = Color(0.5, 0.5, 0.5, 0.5)
 
+func set_colors(background_color: Color, line_color: Color) -> void:
+	progress_bar.tint_over = background_color
+	progress_bar.tint_progress = line_color
+
 func _bump(action) -> void:
 	set_current_action(action)
 	if bound_action.enabled and action == bound_action:

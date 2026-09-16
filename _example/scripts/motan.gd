@@ -9,7 +9,6 @@ func _on_interact_area_3d_action_start(action: InteractAction) -> void:
 	match action.hint:
 		": )":
 			play_and_increment()
-			interact_area_3d.disable_action(": )")
 
 func _on_interact_area_3d_action_finish(action: InteractAction) -> void:
 	match action.hint:
@@ -23,6 +22,7 @@ func _on_interact_area_3d_action_finish(action: InteractAction) -> void:
 			song.finished.connect(func():interact_area_3d.enable_action(": )"))
 
 func play_and_increment() -> void:
+	interact_area_3d.disable_action(": )")
 	song.stream = verity[index]
 	index += 1
 	song.play()
