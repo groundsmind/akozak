@@ -11,7 +11,8 @@ made in around a day!
 * Download this repo's source code
 * Copy the `addons` folder to the root of your project
 ### Asset Store
-Pending approval!
+> [!NOTE]
+> pending approval! will have a link here soon
 
 
 # Documentation
