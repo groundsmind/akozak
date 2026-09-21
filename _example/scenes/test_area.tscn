@@ -64,6 +64,11 @@ data = PackedVector3Array(10, 0, 10, -10, 0, 10, 10, 0, -10, -10, 0, 10, -10, 0,
 [sub_resource type="BoxMesh" id="BoxMesh_3fd14"]
 size = Vector3(5, 1, 1)
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6rhlo"]
+albedo_color = Color(0, 2.3133948, 2.3133948, 1)
+albedo_texture = ExtResource("5_3fx4v")
+uv1_triplanar = true
+
 [sub_resource type="BoxMesh" id="BoxMesh_6rhlo"]
 size = Vector3(14.145, 8.855, 1)
 
@@ -181,7 +186,7 @@ metadata/_custom_type_script = "uid://rf526ervh8ar"
 radius = 0.8388672
 height = 2.7592773
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_6rhlo"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_8u5hj"]
 viewport_path = NodePath("SubViewport")
 
 [node name="test area" type="Node3D" unique_id=2025112010]
@@ -247,7 +252,7 @@ shape = SubResource("ConcavePolygonShape3D_xnrqy")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4451282, -4)
 use_collision = true
 mesh = SubResource("BoxMesh_3fd14")
-material = SubResource("StandardMaterial3D_xnrqy")
+material = SubResource("StandardMaterial3D_6rhlo")
 
 [node name="table2" type="CSGMesh3D" parent="Static" unique_id=403083904]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.9313474, 4.0635753, 1.8925219)
@@ -405,7 +410,7 @@ transform = Transform3D(1.0000002, 0, -2.9802322e-08, 0, 1, 0, 2.9802322e-08, 0,
 
 [node name="InteractionHints3D" parent="." unique_id=724784978 instance=ExtResource("11_73gkg")]
 visible = false
-texture = SubResource("ViewportTexture_6rhlo")
+texture = SubResource("ViewportTexture_8u5hj")
 progress_line_color = Color(1.2513996e-06, 0.4693308, 0.6623503, 1)
 
 [connection signal="action_start" from="Interactible/prism/PrismInteractArea" to="Interactible/prism" method="_on_prism_interact_area_action_start"]

@@ -1,16 +1,17 @@
 [gd_scene format=3 uid="uid://dg24tnsodfj8a"]
 
-[ext_resource type="Script" uid="uid://ckx77xlpp2dwf" path="res://scripts/InteractionHints3D.gd" id="1_3cew3"]
+[ext_resource type="Script" uid="uid://ckx77xlpp2dwf" path="res://addons/akozak-interaction/scripts/InteractionHints3D.gd" id="1_3cew3"]
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_cb2or"]
 viewport_path = NodePath("SubViewport")
 
 [node name="InteractionHints3D" type="Sprite3D" unique_id=724784978]
 transform = Transform3D(0.15, 0, 0, 0, 0.15, 0, 0, 0, 0.005, 0, 0, 0)
-billboard = 2
+billboard = 1
 double_sided = false
 no_depth_test = true
 fixed_size = true
+texture_filter = 0
 render_priority = 127
 texture = SubResource("ViewportTexture_cb2or")
 script = ExtResource("1_3cew3")
