@@ -17,3 +17,6 @@ made in around a day!
 
 # Documentation
 Refer to the [wiki](https://github.com/groundsmind/akozak/wiki)
+
+# Issues?
+don't be afraid to [open an issue report](https://github.com/groundsmind/akozak/issues) or [contact me on Discord](https://discord.com/users/542160345456967720)
