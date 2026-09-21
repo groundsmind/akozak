@@ -12,7 +12,8 @@ made in around a day!
 * Copy the `addons` folder to the root of your project
 * Inside the editor, go to `Project -> Project Settings -> Plugins` and enable Akozak Interaction System
 ### Asset Store
-[soon...]
+Pending approval!
+
 
 # Documentation
 Refer to the [wiki](https://github.com/groundsmind/akozak/wiki)
