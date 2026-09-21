@@ -1,3 +1,4 @@
+class_name InteractionHints3D
 extends Sprite3D
 
 const PROMPT = preload("uid://cq1enxi7px6dw")
