@@ -10,7 +10,6 @@ made in around a day!
 ### Manual
 * Download this repo's source code
 * Copy the `addons` folder to the root of your project
-* Inside the editor, go to `Project -> Project Settings -> Plugins` and enable Akozak Interaction System
 ### Asset Store
 Pending approval!
 
