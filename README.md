@@ -6,10 +6,13 @@ made in around a day!
 
 ![demo](repo_assets/akogif.gif)
 
-# 1. Installation
-### 1.1 Manual
+# Installation
+### Manual
 * Download this repo's source code
 * Copy the `addons` folder to the root of your project
 * Inside the editor, go to `Project -> Project Settings -> Plugins` and enable Akozak Interaction System
-### 1.2 Asset Store
-soon...
+### Asset Store
+[soon...]
+
+# Documentation
+Refer to the [wiki](https://github.com/groundsmind/akozak/wiki)
