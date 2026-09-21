@@ -4,6 +4,8 @@
 a pretty handy and simple interaction system for all your 3d needs :)
 made in around a day!
 
+![demo](repo_assets/akogif.png)
+
 # 1. Installation
 ### 1.1 Manual
 * Download this repo's source code
