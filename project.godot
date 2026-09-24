@@ -22,7 +22,7 @@ GlobalInteractData="*uid://dbyoga5xbdaru"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/akozak3d-interaction/plugin.cfg")
+enabled=PackedStringArray()
 
 [input]
 
