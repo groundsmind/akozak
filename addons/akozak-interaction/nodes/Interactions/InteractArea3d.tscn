@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://b5prkjja7arlv"]
+
+[ext_resource type="Script" uid="uid://3le56330u13d" path="res://scripts/InteractArea3D.gd" id="1_aiem0"]
+[ext_resource type="Script" uid="uid://rf526ervh8ar" path="res://scripts/InteractSources.gd" id="2_m1qov"]
+
+[sub_resource type="Resource" id="Resource_lwqeb"]
+script = ExtResource("2_m1qov")
+metadata/_custom_type_script = "uid://rf526ervh8ar"
+
+[node name="InteractArea3D" type="Area3D" unique_id=1000797918]
+collision_layer = 4
+collision_mask = 8
+script = ExtResource("1_aiem0")
+interactions = Array[ExtResource("2_m1qov")]([SubResource("Resource_lwqeb")])
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="area_exited" from="." to="." method="_on_area_exited"]

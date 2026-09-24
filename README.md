@@ -1,9 +1,14 @@
+<<<<<<< HEAD
 ![akozak banner](banner.png)
+=======
+![akozak banner](repo_assets/banner.png)
+>>>>>>> 302c583fb376394383914e0a7d06ff12914b086d
 [![Made with Godot](https://img.shields.io/badge/Made%20with-Godot-478CBF.svg?style=flat&logo=godot-engine)](https://godotengine.org/)
 # Akozak Interaction System
 a pretty handy and simple interaction system for all your 3d needs :)
 made in around a day!
 
+<<<<<<< HEAD
 # 1. Installation
 ### 1.1 Manual
 * Download this repo's source code
@@ -65,3 +70,21 @@ By referencing the `InteractArea3D` in your script, you can call `disable_action
 
 You may make use of akozak's prebuilt UI by simply instantiating the InteractionHints3D node, preferably on the scene's root.
 There are also some settings to mess around with, mainly the progressbar's background and line color.
+=======
+![demo](repo_assets/akogif.gif)
+
+# Installation
+### Manual
+* Download this repo's source code
+* Copy the `addons` folder to the root of your project
+### Asset Store
+> [!NOTE]
+> pending approval! will have a link here soon
+
+
+# Documentation
+Refer to the [wiki](https://github.com/groundsmind/akozak/wiki)
+
+# Issues?
+don't be afraid to [open an issue report](https://github.com/groundsmind/akozak/issues) or [contact me on Discord](https://discord.com/users/542160345456967720)
+>>>>>>> 302c583fb376394383914e0a7d06ff12914b086d

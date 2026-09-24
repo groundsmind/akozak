@@ -13,7 +13,12 @@ dest_files=["res://.godot/imported/well.mp3-89312d5a9f62ad85536f899ba22ac0ff.mp3
 [params]
 
 loop=false
+<<<<<<< HEAD
 loop_offset=0.0
 bpm=0.0
+=======
+loop_offset=0
+bpm=0
+>>>>>>> 302c583fb376394383914e0a7d06ff12914b086d
 beat_count=0
 bar_beats=4

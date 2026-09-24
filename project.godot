@@ -10,8 +10,12 @@ config_version=5
 
 [application]
 
+<<<<<<< HEAD
 config/name="Akozak Interaction System"
 config/tags=PackedStringArray("released")
+=======
+config/name="interaction system"
+>>>>>>> 302c583fb376394383914e0a7d06ff12914b086d
 run/main_scene="uid://bm1q1wrq8xk14"
 config/features=PackedStringArray("4.7", "Forward Plus")
 config/icon="uid://cxph2wpfpax7a"
@@ -20,10 +24,13 @@ config/icon="uid://cxph2wpfpax7a"
 
 GlobalInteractData="*uid://dbyoga5xbdaru"
 
+<<<<<<< HEAD
 [display]
 
 window/size/mode=2
 
+=======
+>>>>>>> 302c583fb376394383914e0a7d06ff12914b086d
 [editor_plugins]
 
 enabled=PackedStringArray("res://addons/akozak-interaction/plugin.cfg")
