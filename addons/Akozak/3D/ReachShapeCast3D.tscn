@@ -1,0 +1,60 @@
+[gd_scene format=3 uid="uid://ddau44aerqmu6"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_g4v7s"]
+radius = 0.01
+height = 0.02
+
+[sub_resource type="GDScript" id="GDScript_ag4sn"]
+script/source = "extends ShapeCast3D
+
+var max_target_position: Vector3
+signal shape_area_entered(area: Area3D)
+signal shape_area_exited(area: Area3D)
+var previous_areas: Array[Area3D] = []
+
+func _ready() -> void:
+	max_target_position = target_position
+	collide_with_bodies = true
+	collide_with_areas = true
+
+func _physics_process(_delta: float) -> void:
+	target_position = max_target_position
+	force_shapecast_update()
+	var current_areas: Array[Area3D] = []
+	
+	if is_colliding():
+		for i in range(get_collision_count()):
+			var collider = get_collider(i)
+			if collider is PhysicsBody3D:
+				var local_collision_point = to_local(get_collision_point(i))
+				target_position = local_collision_point
+				break
+			if collider is Area3D and not current_areas.has(collider):
+				current_areas.append(collider)
+	
+	for area in previous_areas:
+		if not is_instance_valid(area): 
+			continue
+		if not current_areas.has(area):
+			shape_area_exited.emit(area)
+			_on_area_exited(area)
+	
+	for area in current_areas:
+		if not previous_areas.has(area):
+			shape_area_entered.emit(area)
+			_on_area_entered(area)
+	previous_areas = current_areas
+
+func _on_area_entered(area: Area3D) -> void:
+	area.area_entered.emit(self)
+
+func _on_area_exited(area: Area3D) -> void:
+	area.area_exited.emit(self)
+"
+
+[node name="ReachShapeCast3D" type="ShapeCast3D" unique_id=2146664225]
+shape = SubResource("CapsuleShape3D_g4v7s")
+target_position = Vector3(0, 0, -2)
+collision_mask = 5
+collide_with_areas = true
+script = SubResource("GDScript_ag4sn")

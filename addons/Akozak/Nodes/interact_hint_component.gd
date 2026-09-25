@@ -1,7 +1,7 @@
 class_name InteractHintComponent
 extends SubViewport
 
-const PROMPT = preload("uid://cq1enxi7px6dw")
+const PROMPT = preload("res://addons/Akozak/Nodes/ActionPrompt.tscn")
 @onready var control_root: Control = $Control
 @onready var prompt_container: VBoxContainer = $Control/CenterContainer/PromptContainer
 

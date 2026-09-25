@@ -16,5 +16,8 @@ extends Resource
 var interacting: bool = false
 
 func _validate_property(property: Dictionary) -> void:
-	if property.name == "duration" and not hold:
+	var hold_properties: Array[String] = [
+		"duration"
+	]
+	if property.name in hold_properties and not hold:
 		property.usage &= ~PROPERTY_USAGE_EDITOR

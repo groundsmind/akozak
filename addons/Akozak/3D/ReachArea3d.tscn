@@ -1,13 +1,31 @@
-[gd_scene format=3 uid="uid://bkglf0f73o2vu"]
+[gd_scene format=3 uid="uid://b1yrm3gcg5q2i"]
 
-[ext_resource type="Script" uid="uid://dt6fg32ao58m0" path="res://addons/Akozak/3D/ReachArea3D.gd" id="1_cv1a7"]
+[sub_resource type="GDScript" id="GDScript_6o7dd"]
+script/source = "extends RayCast3D
+
+# Remembers the maximum range set in the inspector
+var max_target_position: Vector3
+
+func _ready() -> void:
+	max_target_position = target_position
+
+func _physics_process(_delta: float) -> void:
+	target_position = max_target_position
+	force_raycast_update()
+	
+	if is_colliding():
+		var collision_point = get_collision_point()
+		var local_collision_point = to_local(collision_point)
+		target_position = local_collision_point
+"
 
 [sub_resource type="SeparationRayShape3D" id="SeparationRayShape3D_2p12m"]
+length = 2.0
 
 [node name="ReachArea3D" type="Area3D" unique_id=1292366619]
-collision_layer = 8
+collision_layer = 9
 collision_mask = 4
-script = ExtResource("1_cv1a7")
+script = SubResource("GDScript_6o7dd")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1521464242]
 transform = Transform3D(1, -8.742278e-08, -8.742278e-08, -8.742278e-08, -1, 0, -8.742278e-08, 7.642742e-15, -1, 0, 0, 0)

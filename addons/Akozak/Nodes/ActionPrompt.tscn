@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://cq1enxi7px6dw"]
 
-[ext_resource type="Texture2D" uid="uid://c2bystgwacilo" path="res://addons/Akozak/Assets/radial_progress/under.png" id="1_kungk"]
+[ext_resource type="Texture2D" uid="uid://c2bystgwacilo" path="res://addons/Akozak/Assets/radial_progress/under.png" id="1_iaivm"]
 [ext_resource type="Texture2D" uid="uid://bgiiihh4vnow7" path="res://addons/Akozak/Assets/radial_progress/progress.png" id="2_aala8"]
 
 [sub_resource type="GDScript" id="GDScript_yf5fn"]
@@ -151,7 +151,7 @@ step = 0.01
 value = 3.21
 allow_lesser = true
 fill_mode = 4
-texture_under = ExtResource("1_kungk")
+texture_under = ExtResource("1_iaivm")
 texture_progress = ExtResource("2_aala8")
 tint_under = Color(0.16, 0.16, 0.16, 0.5019608)
 tint_progress = Color(0.4334447, 1, 0.50005263, 0.8392157)

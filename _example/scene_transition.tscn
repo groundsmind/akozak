@@ -1,0 +1,66 @@
+[gd_scene format=3 uid="uid://c107qcl25j8ht"]
+
+[sub_resource type="GDScript" id="GDScript_g4v7s"]
+resource_name = "Transition"
+script/source = "extends ColorRect
+
+@export var next_scene: String
+@onready var animation_player: AnimationPlayer = $AnimationPlayer
+
+func _ready() -> void:
+	show()
+	animation_player.play_backwards(\"fade\")
+
+func transition_to(_next_scene = next_scene) -> void:
+	animation_player.play(\"fade\")
+	await animation_player.animation_finished
+	get_tree().change_scene_to_file(_next_scene)
+"
+
+[sub_resource type="Animation" id="Animation_j8kmr"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_xhexy"]
+resource_name = "fade"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0, 0, 0, 0), Color(0, 0, 0, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_fiv0x"]
+_data = {
+&"RESET": SubResource("Animation_j8kmr"),
+&"fade": SubResource("Animation_xhexy")
+}
+
+[node name="SceneTransitionRect" type="ColorRect" unique_id=861179771]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = SubResource("GDScript_g4v7s")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1682791740]
+libraries/ = SubResource("AnimationLibrary_fiv0x")

@@ -5,7 +5,7 @@
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_g4v7s"]
 atlas = ExtResource("2_awi3w")
-region = Rect2(48, 32, 16, 16)
+region = Rect2(112, 144, 16, 16)
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_yf5fn"]
 radius = 12.0
@@ -17,6 +17,7 @@ script = ExtResource("1_q8tro")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=23620526]
 texture_filter = 1
+position = Vector2(1, 0)
 scale = Vector2(2, 2)
 texture = SubResource("AtlasTexture_g4v7s")
 

@@ -20,6 +20,7 @@ billboard = 2
 double_sided = false
 no_depth_test = true
 fixed_size = true
+texture_filter = 0
 render_priority = 127
 texture = SubResource("PlaceholderTexture2D_otl0c")
 script = SubResource("GDScript_xmsyi")

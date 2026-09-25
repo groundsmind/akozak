@@ -14,7 +14,7 @@ config/name="Akozak Interaction System"
 config/tags=PackedStringArray("released")
 run/main_scene="uid://dqpxfxaharsj5"
 config/features=PackedStringArray("4.7", "Forward Plus")
-config/icon="uid://ciojtlb2inmdy"
+config/icon="uid://cxph2wpfpax7a"
 
 [autoload]
 
@@ -22,7 +22,7 @@ GlobalInteractData="*uid://bi32ionu5y1t3"
 
 [editor_plugins]
 
-enabled=PackedStringArray()
+enabled=PackedStringArray("res://addons/Akozak/plugin.cfg")
 
 [input]
 
