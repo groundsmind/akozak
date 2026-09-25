@@ -1,0 +1,27 @@
+[gd_scene format=3 uid="uid://d02v7l21ff15y"]
+
+[ext_resource type="PackedScene" uid="uid://t7ddfdgfnh5s" path="res://addons/Akozak/Nodes/InteractHintComponent.tscn" id="1_otl0c"]
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_otl0c"]
+size = Vector2(500, 500)
+
+[sub_resource type="GDScript" id="GDScript_xmsyi"]
+script/source = "extends Sprite3D
+
+@onready var viewport: SubViewport = $InteractHintComponent
+
+func _ready() -> void:
+	texture = viewport.get_texture()
+"
+
+[node name="InteractionHints3D" type="Sprite3D" unique_id=724784978]
+transform = Transform3D(0.15, 0, 0, 0, 0.15, 0, 0, 0, 0.005, 0, 0, 0)
+billboard = 2
+double_sided = false
+no_depth_test = true
+fixed_size = true
+render_priority = 127
+texture = SubResource("PlaceholderTexture2D_otl0c")
+script = SubResource("GDScript_xmsyi")
+
+[node name="InteractHintComponent" parent="." unique_id=1406713743 instance=ExtResource("1_otl0c")]

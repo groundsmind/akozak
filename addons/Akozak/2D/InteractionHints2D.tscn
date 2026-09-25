@@ -1,0 +1,27 @@
+[gd_scene format=3 uid="uid://c2hattgpp4tm8"]
+
+[ext_resource type="PackedScene" uid="uid://t7ddfdgfnh5s" path="res://addons/Akozak/Nodes/InteractHintComponent.tscn" id="1_d2p2t"]
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_otl0c"]
+size = Vector2(500, 500)
+
+[sub_resource type="GDScript" id="GDScript_f05ac"]
+resource_name = "InteractionHints2D"
+script/source = "extends Sprite2D
+
+@onready var viewport: InteractHintComponent = $InteractHintComponent
+
+func _ready() -> void:
+	# Wait until the child node is fully ready
+	if not viewport.is_node_ready():
+		await viewport.ready
+	
+	texture = viewport.get_texture()
+"
+
+[node name="InteractionHints2D" type="Sprite2D" unique_id=1388726542]
+scale = Vector2(0.15, 0.15)
+texture = SubResource("PlaceholderTexture2D_otl0c")
+script = SubResource("GDScript_f05ac")
+
+[node name="InteractHintComponent" parent="." unique_id=1406713743 instance=ExtResource("1_d2p2t")]

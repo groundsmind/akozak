@@ -1,0 +1,32 @@
+[gd_scene format=3 uid="uid://c4pwk7ije64dn"]
+
+[ext_resource type="Shader" uid="uid://yyk0f0umt8xi" path="res://_example/assets/crosshair_inverted_colors.gdshader" id="1_s7383"]
+[ext_resource type="Texture2D" uid="uid://vavsc4q5xt4v" path="res://_example/assets/kenney_crosshair.png" id="2_pirp7"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_a0f05"]
+shader = ExtResource("1_s7383")
+
+[node name="Crosshair" type="CanvasLayer" unique_id=1067797190]
+
+[node name="Control" type="Control" parent="." unique_id=1912687847]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="CenterContainer" type="CenterContainer" parent="Control" unique_id=1569761387]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TextureRect" type="TextureRect" parent="Control/CenterContainer" unique_id=490196269]
+material = SubResource("ShaderMaterial_a0f05")
+layout_mode = 2
+size_flags_stretch_ratio = 0.0
+texture = ExtResource("2_pirp7")

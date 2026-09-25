@@ -1,0 +1,166 @@
+[gd_scene format=3 uid="uid://cq1enxi7px6dw"]
+
+[ext_resource type="Texture2D" uid="uid://c2bystgwacilo" path="res://addons/Akozak/Assets/radial_progress/under.png" id="1_kungk"]
+[ext_resource type="Texture2D" uid="uid://bgiiihh4vnow7" path="res://addons/Akozak/Assets/radial_progress/progress.png" id="2_aala8"]
+
+[sub_resource type="GDScript" id="GDScript_yf5fn"]
+script/source = "extends HBoxContainer
+
+@onready var hint_label: Label = $HintLabel
+@onready var progress_bar: TextureProgressBar = $CenterContainer/ProgressBar
+@onready var key_label: Label = $CenterContainer/KeyLabel
+
+
+var bound_action: InteractAction
+var curr_action: InteractAction
+var is_animating_bar_reset: bool = false
+var target_modulate: Color = Color(1.0, 1.0, 1.0, 1.0)
+
+const NO_OPACITY: Color = Color(0.0, 0.0, 0.0, 0.0)
+const HALF_OPACITY: Color = Color(0.0, 0.0, 0.0, 0.5)
+const FULL_OPACITY: Color = Color(1.0, 1.0, 1.0, 1.0)
+
+var bump_scale_tween: Tween
+var bump_rot_tween: Tween
+var _active_tweens: Dictionary = {}
+
+func _ready() -> void:
+	await get_tree().process_frame
+	key_label.pivot_offset = key_label.size / 2
+	progress_bar.value = 0.0
+	GlobalInteractData.interaction_start.connect(_bump)
+	GlobalInteractData.interaction_start.connect(set_current_action)
+	GlobalInteractData.interaction_cancel.connect(_on_interaction_end)
+	GlobalInteractData.interaction_finish.connect(_on_interaction_end)
+
+func _process(delta: float) -> void:
+	if curr_action == bound_action and is_instance_valid(GlobalInteractData.action_timer):
+		progress_bar.value = progress_bar.max_value - GlobalInteractData.time_left
+	elif is_animating_bar_reset:
+		progress_bar.value = move_toward(progress_bar.value, 0.0, delta * 400.0)
+		if progress_bar.value == 0.0:
+			is_animating_bar_reset = false
+
+func _on_interaction_end(action: InteractAction) -> void:
+	if action == bound_action:
+		is_animating_bar_reset = true
+
+func set_current_action(action: InteractAction) -> void:
+	curr_action = action
+
+func refresh_enabled_state() -> void:
+	if bound_action.enabled:
+		exp_out_tween(self, 'modulate', bound_action.text_color, 0.5)
+	else:
+		exp_out_tween(self, 'modulate', bound_action.text_color - HALF_OPACITY, 0.5)
+	
+	if bound_action.visible:
+		show()
+	else:
+		hide()
+
+func set_bound_action(gid_action: InteractAction) -> void:
+	bound_action = gid_action
+	key_label.text = OS.get_keycode_string(bound_action.key)
+	hint_label.text = bound_action.hint
+	progress_bar.max_value = bound_action.duration
+	modulate = Color(1, 1, 1, 0) 
+
+
+func set_progbar_color(background_color: Color, line_color: Color) -> void:
+	progress_bar.tint_over = background_color
+	progress_bar.tint_progress = line_color
+
+func set_text_color(color: Color) -> void:
+	exp_out_tween(hint_label, \"modulate\", color, 0.25)
+
+func _fade_slide_in(delay) -> void:
+	position.x = 1000.0
+	var final_color = bound_action.text_color if bound_action.enabled else (bound_action.text_color - HALF_OPACITY)
+	var eo_tween = create_tween().set_parallel(true)
+
+	eo_tween.tween_property(self, \"modulate\", final_color, 1.0)\\
+		.set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_OUT).set_delay(delay)
+
+	eo_tween.tween_property(self, \"position:x\", 0.0, 0.6)\\
+		.set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_OUT).set_delay(delay)
+
+func _fade_slide_out(delay: float) -> Tween:
+	var slide_distance: int = -1000
+	var eo_tween = create_tween().set_parallel(true)
+	eo_tween.tween_property(self, \"position:x\", slide_distance, 1.0)\\
+		.set_trans(Tween.TRANS_EXPO)\\
+		.set_ease(Tween.EASE_OUT)\\
+		.set_delay(delay)
+	
+	eo_tween.tween_property(self, \"modulate\", Color.TRANSPARENT, 0.8).set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_OUT).set_delay(delay)
+	return eo_tween
+
+func _bump(action) -> void:
+	set_current_action(action)
+	if bound_action.enabled and action == bound_action:
+		is_animating_bar_reset = false 
+		start_new_bump()
+
+func exp_out_tween(node: Node, property: String, target, duration: float, delay: float = 0.0) -> Tween:
+	var tween_key = str(node.get_instance_id()) + \"_\" + property
+	if _active_tweens.has(tween_key):
+		var old_tween = _active_tweens[tween_key]
+		if old_tween and old_tween.is_valid():
+			old_tween.kill()
+	var eo_tween = create_tween().set_parallel(true)
+	eo_tween.tween_property(node, property, target, duration).set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_OUT).set_delay(delay)
+	_active_tweens[tween_key] = eo_tween
+	return eo_tween
+
+func start_new_bump() -> void:
+	if bump_scale_tween and bump_scale_tween.is_valid():
+		bump_scale_tween.kill()
+	if bump_rot_tween and bump_rot_tween.is_valid():
+		bump_rot_tween.kill()
+	key_label.scale = Vector2(2.0, 0.5)
+	exp_out_tween(key_label, \"scale\", Vector2(1.0,1.0), 0.5)
+	key_label.rotation += randf_range(deg_to_rad(-45), deg_to_rad(45))
+	exp_out_tween(key_label, \"rotation\", 0.0, 0.5)
+"
+
+[node name="prompt" type="HBoxContainer" unique_id=990413201]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.3, 0.3)
+alignment = 2
+script = SubResource("GDScript_yf5fn")
+
+[node name="HintLabel" type="Label" parent="." unique_id=1840373609]
+layout_mode = 2
+theme_override_constants/outline_size = 45
+theme_override_font_sizes/font_size = 146
+text = "Interact"
+horizontal_alignment = 2
+
+[node name="CenterContainer" type="CenterContainer" parent="." unique_id=1599915162]
+layout_mode = 2
+
+[node name="ProgressBar" type="TextureProgressBar" parent="CenterContainer" unique_id=835352050]
+layout_mode = 2
+max_value = 10.0
+step = 0.01
+value = 3.21
+allow_lesser = true
+fill_mode = 4
+texture_under = ExtResource("1_kungk")
+texture_progress = ExtResource("2_aala8")
+tint_under = Color(0.16, 0.16, 0.16, 0.5019608)
+tint_progress = Color(0.4334447, 1, 0.50005263, 0.8392157)
+
+[node name="KeyLabel" type="Label" parent="CenterContainer" unique_id=529173622]
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 45
+theme_override_font_sizes/font_size = 175
+text = "E"
+horizontal_alignment = 1
+vertical_alignment = 1

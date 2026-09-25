@@ -1,0 +1,379 @@
+[gd_scene format=3 uid="uid://bm1q1wrq8xk14"]
+
+[ext_resource type="Script" uid="uid://dt8uvbc4pe0ej" path="res://_example/3D/scripts/BasicFPSController.gd" id="3_3fx4v"]
+[ext_resource type="PackedScene" uid="uid://bkglf0f73o2vu" path="res://addons/Akozak/3D/ReachArea3d.tscn" id="4_bfpvo"]
+[ext_resource type="AudioStream" uid="uid://de0y844rfsoij" path="res://_example/3D/assets/rot.ogg" id="4_cnygy"]
+[ext_resource type="AudioStream" uid="uid://co85rvxodtocg" path="res://_example/3D/assets/nom.mp3" id="5_2n03v"]
+[ext_resource type="Texture2D" uid="uid://b1ruapkmmqgoj" path="res://_example/3D/assets/kenney_texture_03.png" id="5_il4hf"]
+[ext_resource type="Script" uid="uid://dq8wgnrwjp70j" path="res://addons/Akozak/Scripts/InteractArea.gd" id="6_78xjc"]
+[ext_resource type="AudioStream" uid="uid://gwnjlykkqwrp" path="res://_example/3D/assets/splat.mp3" id="6_il4hf"]
+[ext_resource type="Script" uid="uid://dodubb0x7t1y" path="res://addons/Akozak/Scripts/InteractAction.gd" id="7_18mfs"]
+[ext_resource type="AudioStream" uid="uid://byy2o810msds" path="res://_example/3D/assets/scary.mp3" id="7_78xjc"]
+[ext_resource type="AudioStream" uid="uid://blcc4b1jsw47y" path="res://_example/3D/assets/ui.wav" id="8_18mfs"]
+[ext_resource type="PackedScene" uid="uid://d02v7l21ff15y" path="res://addons/Akozak/3D/InteractionHints3D.tscn" id="8_ceum5"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_a0f05"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_a0f05"]
+radius = 0.33
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_f0p7x"]
+sky_top_color = Color(0.36299998, 0.48455003, 0.55, 1)
+sky_horizon_color = Color(0.9930471, 1.0710347, 1.1213971, 1)
+ground_bottom_color = Color(0.3536, 0.544, 0.68, 1)
+ground_horizon_color = Color(0.9930471, 1.0710347, 1.1213971, 1)
+
+[sub_resource type="Sky" id="Sky_vtm10"]
+sky_material = SubResource("ProceduralSkyMaterial_f0p7x")
+
+[sub_resource type="Environment" id="Environment_a0f05"]
+background_mode = 2
+sky = SubResource("Sky_vtm10")
+tonemap_mode = 2
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xnrqy"]
+albedo_texture = ExtResource("5_il4hf")
+uv1_triplanar = true
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_3fd14"]
+material = SubResource("StandardMaterial3D_xnrqy")
+size = Vector2(20, 20)
+
+[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_xnrqy"]
+data = PackedVector3Array(10, 0, 10, -10, 0, 10, 10, 0, -10, -10, 0, 10, -10, 0, -10, 10, 0, -10)
+
+[sub_resource type="BoxMesh" id="BoxMesh_3fd14"]
+size = Vector3(5, 1, 1)
+
+[sub_resource type="GDScript" id="GDScript_2n03v"]
+resource_name = "Prism"
+script/source = "extends Node3D
+
+@onready var rot: AudioStreamPlayer3D = $rot
+@onready var mesh: MeshInstance3D = $mesh
+var target_rotation: Vector3 = Vector3.ZERO
+
+func _process(delta: float) -> void:
+	mesh.rotation = lerp(mesh.rotation, target_rotation, delta*3)
+
+func _on_interact_area_action_start(_action: InteractAction) -> void:
+	target_rotation = Vector3(randf_range(0,2*PI), randf_range(0,2*PI), randf_range(0,2*PI))
+	rot.pitch_scale = randf_range(0.5, 2.0)
+	rot.play()
+"
+
+[sub_resource type="PrismMesh" id="PrismMesh_g4v7s"]
+size = Vector3(0.655, 0.335, 0.165)
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_3cew3"]
+radius = 0.39628488
+
+[sub_resource type="Resource" id="Resource_g4v7s"]
+script = ExtResource("7_18mfs")
+hint = "Rotate"
+metadata/_custom_type_script = "uid://dodubb0x7t1y"
+
+[sub_resource type="GDScript" id="GDScript_g4v7s"]
+resource_name = "donut"
+script/source = "extends Node3D
+
+@onready var nom: AudioStreamPlayer3D = $sounds/nom
+@onready var splat: AudioStreamPlayer3D = $sounds/splat
+@onready var scary: AudioStreamPlayer3D = $sounds/scary
+@onready var rise: AudioStreamPlayer3D = $sounds/rise
+@onready var ui: AudioStreamPlayer3D = $sounds/ui
+
+@onready var donut: MeshInstance3D = $Donut
+@onready var eaten_donut: CSGMesh3D = $\"EatenDonut\"
+@onready var donut_eat_particles: GPUParticles3D = $\"donutEat\"
+@onready var interact_area: InteractArea = $Area3D/InteractArea
+@onready var donut_mat: Material
+var destroyed: bool = false
+
+func _ready() -> void:
+	donut_mat = donut.get_active_material(0)
+
+func _on_interact_area_action_finish(action: InteractAction) -> void:
+	match action.hint:
+		\"Eat\":
+			if not destroyed:
+				donut.hide()
+				eaten_donut.show()
+				donut_eat_particles.emitting = true
+				
+				interact_area.disable_action(\"Eat\")
+				interact_area.enable_action(\"Ponder\")
+		\"Destroy\":
+			donut.hide()
+			eaten_donut.hide()
+			destroyed = true
+			scary.play(0.45)
+			
+			interact_area.disable_action(\"Eat\")
+			interact_area.disable_action(\"Glaze\")
+			interact_area.enable_action(\"Ponder\")
+			interact_area.disable_action(\"Destroy\")
+
+func _on_interact_area_action_start(action: InteractAction) -> void:
+	match action.hint:
+		\"Eat\":
+			nom.play()
+		\"Destroy\":
+			ui.play()
+		\"Glaze\":
+			if not destroyed:
+				donut_mat.albedo_color = Color(randf_range(0.0,1.0), randf_range(0.0,1.0), randf_range(0.0,1.0))
+				splat.play(0.14)
+		\"Ponder\":
+			donut.show()
+			eaten_donut.hide()
+			destroyed = false
+			rise.pitch_scale = randf_range(0.5, 2.0)
+			rise.play()
+			
+			interact_area.enable_action(\"Eat\")
+			interact_area.enable_action(\"Glaze\")
+			interact_area.disable_action(\"Ponder\")
+			interact_area.enable_action(\"Destroy\")
+
+func _on_interact_area_action_cancel(action: InteractAction) -> void:
+	match action.hint:
+		\"Eat\":
+			nom.stop()
+"
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dr473"]
+
+[sub_resource type="TorusMesh" id="TorusMesh_576i8"]
+material = SubResource("StandardMaterial3D_dr473")
+inner_radius = 0.04
+outer_radius = 0.21
+
+[sub_resource type="SphereMesh" id="SphereMesh_g4v7s"]
+radius = 0.25
+height = 0.5
+radial_segments = 16
+rings = 8
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_g4v7s"]
+albedo_color = Color(0.3444994, 0.26779303, 0.3330377, 1)
+
+[sub_resource type="Curve" id="Curve_3s68p"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.5314286, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_d0u6y"]
+curve = SubResource("Curve_3s68p")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_57qmd"]
+direction = Vector3(0, 1, 0)
+spread = 30.446
+initial_velocity_min = 3.0
+initial_velocity_max = 3.0
+scale_curve = SubResource("CurveTexture_d0u6y")
+
+[sub_resource type="SphereMesh" id="SphereMesh_yf5fn"]
+radius = 0.063
+height = 0.128
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_yf5fn"]
+height = 0.33740234
+radius = 0.28466797
+
+[sub_resource type="Resource" id="Resource_c8ol7"]
+script = ExtResource("7_18mfs")
+hint = "Eat"
+hold = true
+duration = 1.9
+text_color = Color(1, 0.476184, 0.16716415, 1)
+metadata/_custom_type_script = "uid://dodubb0x7t1y"
+
+[sub_resource type="Resource" id="Resource_rrw1w"]
+script = ExtResource("7_18mfs")
+key = 81
+hint = "Destroy"
+hold = true
+duration = 2.0
+text_color = Color(1, 0, 0, 1)
+metadata/_custom_type_script = "uid://dodubb0x7t1y"
+
+[sub_resource type="Resource" id="Resource_h0t8k"]
+script = ExtResource("7_18mfs")
+key = 82
+hint = "Glaze"
+text_color = Color(1, 0.3019608, 1, 1)
+metadata/_custom_type_script = "uid://dodubb0x7t1y"
+
+[sub_resource type="Resource" id="Resource_xhjqq"]
+script = ExtResource("7_18mfs")
+key = 70
+hint = "Ponder"
+duration = 1.0
+enabled = false
+text_color = Color(0.061200004, 0.070266664, 0.17, 1)
+metadata/_custom_type_script = "uid://dodubb0x7t1y"
+
+[node name="test area" type="Node3D" unique_id=2025112010]
+
+[node name="UI" type="CanvasLayer" parent="." unique_id=1289210383]
+
+[node name="Control" type="Control" parent="UI" unique_id=2110387536]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="CenterContainer" type="CenterContainer" parent="UI/Control" unique_id=324681010]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TextureRect" type="TextureRect" parent="UI/Control/CenterContainer" unique_id=651015998]
+material = SubResource("ShaderMaterial_a0f05")
+layout_mode = 2
+size_flags_stretch_ratio = 0.0
+
+[node name="player" type="CharacterBody3D" parent="." unique_id=1414542305]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+script = ExtResource("3_3fx4v")
+
+[node name="head" type="Node3D" parent="player" unique_id=1692574706]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6822245, 0)
+
+[node name="camera" type="Camera3D" parent="player/head" unique_id=366353718]
+
+[node name="ReachArea3D" parent="player/head/camera" unique_id=1292366619 instance=ExtResource("4_bfpvo")]
+
+[node name="collision" type="CollisionShape3D" parent="player" unique_id=370161632]
+shape = SubResource("CapsuleShape3D_a0f05")
+
+[node name="Static" type="Node3D" parent="." unique_id=1757004260]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Static" unique_id=151966139]
+environment = SubResource("Environment_a0f05")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Static" unique_id=1412581782]
+transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, 0, 0, 0)
+shadow_enabled = true
+
+[node name="Floor" type="MeshInstance3D" parent="Static" unique_id=1095132076]
+mesh = SubResource("PlaneMesh_3fd14")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Static/Floor" unique_id=1872811066]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Static/Floor/StaticBody3D" unique_id=1663128005]
+shape = SubResource("ConcavePolygonShape3D_xnrqy")
+
+[node name="table" type="CSGMesh3D" parent="Static" unique_id=1610485960]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4451282, -4)
+use_collision = true
+mesh = SubResource("BoxMesh_3fd14")
+material = SubResource("StandardMaterial3D_xnrqy")
+
+[node name="Interactible" type="Node3D" parent="." unique_id=1404419069]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0412221, -4.082488)
+
+[node name="prism" type="Node3D" parent="Interactible" unique_id=481308986]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.9873024, 0.22815502, 0)
+script = SubResource("GDScript_2n03v")
+
+[node name="mesh" type="MeshInstance3D" parent="Interactible/prism" unique_id=1954889864]
+mesh = SubResource("PrismMesh_g4v7s")
+
+[node name="rot" type="AudioStreamPlayer3D" parent="Interactible/prism" unique_id=495175402]
+stream = ExtResource("4_cnygy")
+
+[node name="Area3D" type="Area3D" parent="Interactible/prism" unique_id=393047238]
+collision_layer = 4
+collision_mask = 8
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Interactible/prism/Area3D" unique_id=1384009891]
+shape = SubResource("SphereShape3D_3cew3")
+
+[node name="Marker3D" type="Marker3D" parent="Interactible/prism/Area3D" unique_id=1059266686]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.26787347, 0.39806724, 0)
+
+[node name="InteractArea" type="Node" parent="Interactible/prism/Area3D" unique_id=1777248253 node_paths=PackedStringArray("hint_marker")]
+script = ExtResource("6_78xjc")
+interactions = Array[ExtResource("7_18mfs")]([SubResource("Resource_g4v7s")])
+hint_marker = NodePath("../Marker3D")
+metadata/_custom_type_script = "uid://dq8wgnrwjp70j"
+
+[node name="donut" type="Node3D" parent="Interactible" unique_id=1372385460]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.69740355, 0, 0)
+script = SubResource("GDScript_g4v7s")
+
+[node name="EatenDonut" type="CSGMesh3D" parent="Interactible/donut" unique_id=627258328]
+transform = Transform3D(-0.1262583, -0.034844987, 0.9913852, 0.05915871, 0.99733955, 0.04258847, -0.9902319, 0.064026184, -0.123860955, 0.03347969, -0.010897517, 0.10514045)
+visible = false
+mesh = SubResource("TorusMesh_576i8")
+
+[node name="CSGMesh3D" type="CSGMesh3D" parent="Interactible/donut/EatenDonut" unique_id=666046977]
+transform = Transform3D(0.9999997, 7.4505806e-08, -2.9802322e-08, 4.902141e-08, 0.9999996, 0, 3.7865128e-08, -2.9802322e-08, 0.9999999, -0.094810754, 0.0052206516, -0.22173858)
+operation = 2
+mesh = SubResource("SphereMesh_g4v7s")
+
+[node name="Donut" type="MeshInstance3D" parent="Interactible/donut" unique_id=1814314713]
+transform = Transform3D(-0.1262583, -0.034844987, 0.9913852, 0.05915871, 0.99733955, 0.04258847, -0.9902319, 0.064026184, -0.123860955, 0.03347969, -0.010897517, 0.10514045)
+mesh = SubResource("TorusMesh_576i8")
+
+[node name="plate" type="CSGCylinder3D" parent="Interactible/donut" unique_id=1413144195]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.08251417, 0.09366822)
+height = 0.001
+material = SubResource("StandardMaterial3D_g4v7s")
+
+[node name="donutEat" type="GPUParticles3D" parent="Interactible/donut" unique_id=702759714]
+emitting = false
+one_shot = true
+explosiveness = 1.0
+randomness = 1.0
+process_material = SubResource("ParticleProcessMaterial_57qmd")
+draw_pass_1 = SubResource("SphereMesh_yf5fn")
+
+[node name="sounds" type="Node3D" parent="Interactible/donut" unique_id=716151167]
+
+[node name="nom" type="AudioStreamPlayer3D" parent="Interactible/donut/sounds" unique_id=1485161293]
+stream = ExtResource("5_2n03v")
+
+[node name="splat" type="AudioStreamPlayer3D" parent="Interactible/donut/sounds" unique_id=1871598296]
+stream = ExtResource("6_il4hf")
+
+[node name="scary" type="AudioStreamPlayer3D" parent="Interactible/donut/sounds" unique_id=2005659876]
+stream = ExtResource("7_78xjc")
+
+[node name="rise" type="AudioStreamPlayer3D" parent="Interactible/donut/sounds" unique_id=1139506242]
+
+[node name="ui" type="AudioStreamPlayer3D" parent="Interactible/donut/sounds" unique_id=1885461408]
+stream = ExtResource("8_18mfs")
+
+[node name="Area3D" type="Area3D" parent="Interactible/donut" unique_id=1990317874]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.045521498, 0, 0.105965614)
+collision_layer = 4
+collision_mask = 8
+
+[node name="Marker3D" type="Marker3D" parent="Interactible/donut/Area3D" unique_id=327802025]
+transform = Transform3D(1, -1.4901161e-08, -7.450581e-09, -7.450581e-09, 1, 9.313226e-10, 0, -9.313226e-10, 0.9999999, 0.21269858, 0.26031923, -0.12872267)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Interactible/donut/Area3D" unique_id=1153561849]
+transform = Transform3D(1, -5.9604645e-08, 2.3841858e-07, -7.450581e-09, 1, 3.4458935e-08, 0, 4.656613e-09, 0.9999965, 0, 0, 0)
+shape = SubResource("CylinderShape3D_yf5fn")
+
+[node name="InteractArea" type="Node" parent="Interactible/donut/Area3D" unique_id=22613697 node_paths=PackedStringArray("hint_marker")]
+script = ExtResource("6_78xjc")
+interactions = Array[ExtResource("7_18mfs")]([SubResource("Resource_c8ol7"), SubResource("Resource_rrw1w"), SubResource("Resource_h0t8k"), SubResource("Resource_xhjqq")])
+hint_marker = NodePath("../Marker3D")
+metadata/_custom_type_script = "uid://dq8wgnrwjp70j"
+
+[node name="InteractionHints3D" parent="." unique_id=724784978 instance=ExtResource("8_ceum5")]
+
+[connection signal="area_entered" from="player/head/camera/ReachArea3D" to="player/head/camera/ReachArea3D" method="_on_area_entered"]
+[connection signal="action_start" from="Interactible/prism/Area3D/InteractArea" to="Interactible/prism" method="_on_interact_area_action_start"]
+[connection signal="action_cancel" from="Interactible/donut/Area3D/InteractArea" to="Interactible/donut" method="_on_interact_area_action_cancel"]
+[connection signal="action_finish" from="Interactible/donut/Area3D/InteractArea" to="Interactible/donut" method="_on_interact_area_action_finish"]
+[connection signal="action_start" from="Interactible/donut/Area3D/InteractArea" to="Interactible/donut" method="_on_interact_area_action_start"]
