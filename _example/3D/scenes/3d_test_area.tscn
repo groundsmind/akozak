@@ -27,6 +27,9 @@ gradient = SubResource("Gradient_i4564")
 fill = 1
 fill_from = Vector2(0.5, 0.5)
 
+[sub_resource type="SphereShape3D" id="SphereShape3D_ag4sn"]
+radius = 0.001
+
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_a0f05"]
 radius = 0.33
 
@@ -310,6 +313,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6822245, 0)
 [node name="camera" type="Camera3D" parent="player/head" unique_id=366353718]
 
 [node name="ReachShapeCast3D" parent="player/head/camera" unique_id=2146664225 instance=ExtResource("4_ag4sn")]
+shape = SubResource("SphereShape3D_ag4sn")
 
 [node name="collision" type="CollisionShape3D" parent="player" unique_id=370161632]
 shape = SubResource("CapsuleShape3D_a0f05")
