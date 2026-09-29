@@ -11,8 +11,7 @@ made in around a day!
 * Download this repo's source code
 * Copy the `addons` folder to the root of your project
 ### Asset Store
-> [!NOTE]
-> pending approval! will have a link here soon
+download through the [asset library on your browser](https://godotengine.org/asset-library/asset/5498) or search "akozak" inside godot's asset library!
 
 
 # Documentation
