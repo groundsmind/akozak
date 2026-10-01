@@ -6,12 +6,11 @@ a pretty handy and simple interaction system for all your 3d needs :)
 ![demo](repo_assets/akogif.gif)
 
 # Installation
+### Asset Store
+download through the [asset library on your browser](https://godotengine.org/asset-library/asset/5498) or search "akozak" inside godot's asset library!
 ### Manual
 * Download this repo's source code
 * Copy the `addons` folder to the root of your project
-### Asset Store
-download through the [asset library on your browser](https://godotengine.org/asset-library/asset/5498) or search "akozak" inside godot's asset library!
-
 
 # Documentation
 Refer to the [wiki](https://github.com/groundsmind/akozak/wiki)
